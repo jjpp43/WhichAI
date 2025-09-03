@@ -21,11 +21,52 @@ export default function OptimizedLogo({
   const [hasError, setHasError] = useState(false);
 
   const getLogoPath = (serviceName: string) => {
-    const fileName = serviceName
+    // Mapping service names to actual file names
+    const logoMapping: Record<string, string> = {
+      "ChatGPT": "ChatGPT",
+      "Claude": "Claude", 
+      "Perplexity": "Perplexity",
+      "Midjourney": "Midjourney",
+      "Leonardo": "Leonardo",
+      "Runway": "Runway",
+      "Copy": "Copy",
+      "Jasper": "Jasper",
+      "GithubCopilot": "GithubCopilot",
+      "ElevenLabs": "ElevenLabs",
+      "Descript": "Descript",
+      "Uizard": "Uizard",
+      "Khroma": "Khroma",
+      "Galileo": "Galileo",
+      "Gemini": "Gemini",
+      "Pi": "Pi",
+      "Stability": "Stability",
+      "Synthesia": "Synthesia",
+      "Heygen": "Heygen",
+      "GrammarlyGO": "GrammarlyGO",
+      "Notion": "Notion",
+      "SudoWrite": "Sudowrite",
+      "Cursor": "Cursor",
+      "ReplitGhostwriter": "ReplitGhostwriter",
+      "Codeium": "Codeium",
+      "Tabnine": "Tabnine",
+      "Voicemod": "Voicemod",
+      "Murf": "Murf",
+      "Riffusion": "Riffusion",
+      "Genei": "Genei",
+      "Humata": "Humata",
+      "Browse": "Browse",
+      "Tome": "Tome",
+      "Kaiber": "Kaiber",
+      "Pikalabs": "Pikalabs"
+    };
+
+    // Use mapping if available, otherwise fall back to original logic
+    const fileName = logoMapping[serviceName] || serviceName
       .toLowerCase()
       .replace(/[^a-z0-9]/g, "-")
       .replace(/-+/g, "-")
       .replace(/^-|-$/g, "");
+    
     return `/api/logos/${fileName}.png`;
   };
 
