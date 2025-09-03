@@ -7,9 +7,11 @@ const LOGOS_DIR = path.join(process.cwd(), "public", "logos");
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ path: string[] }> }
+  context: { params: Promise<{ path: string[] }> }
 ) {
+  const { params } = context;
   const resolvedParams = await params;
+
   try {
     const imagePath = resolvedParams.path.join("/");
     const fullPath = path.join(LOGOS_DIR, imagePath);
