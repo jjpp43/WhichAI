@@ -1,0 +1,362 @@
+[
+  {
+    "id": "1",
+    "name": "ChatGPT",
+    "description": "AI chatbot by OpenAI that can assist with writing, coding, and more.",
+    "category": "Chatbot",
+    "createdDate": "2023-02-11T09:00:00Z",
+    "updatedDate": "2024-01-25T09:00:00Z",
+    "url": "https://chat.openai.com"
+  },
+  {
+    "id": "2",
+    "name": "Claude",
+    "description": "Conversational AI by Anthropic with long memory and helpful dialogue.",
+    "category": "Chatbot",
+    "createdDate": "2023-05-28T09:00:00Z",
+    "updatedDate": "2024-03-27T09:00:00Z",
+    "url": "https://claude.ai"
+  },
+  {
+    "id": "3",
+    "name": "Perplexity",
+    "description": "AI-powered search engine that answers with sources.",
+    "category": "Research",
+    "createdDate": "2023-04-11T09:00:00Z",
+    "updatedDate": "2024-06-08T09:00:00Z",
+    "url": "https://www.perplexity.ai"
+  },
+  {
+    "id": "4",
+    "name": "Midjourney",
+    "description": "Generates high-quality AI art from text prompts.",
+    "category": "Image Generation",
+    "createdDate": "2023-02-03T09:00:00Z",
+    "updatedDate": "2024-04-12T09:00:00Z",
+    "url": "https://www.midjourney.com"
+  },
+  {
+    "id": "5",
+    "name": "Leonardo",
+    "description": "Tool for generating illustrations and concept art using AI.",
+    "category": "Design",
+    "createdDate": "2023-06-16T09:00:00Z",
+    "updatedDate": "2024-05-24T09:00:00Z",
+    "url": "https://leonardo.ai"
+  },
+  {
+    "id": "6",
+    "name": "Runway",
+    "description": "AI video tools for creative professionals and filmmakers.",
+    "category": "Video Generation",
+    "createdDate": "2023-05-26T09:00:00Z",
+    "updatedDate": "2024-02-28T09:00:00Z",
+    "url": "https://runwayml.com"
+  },
+  {
+    "id": "7",
+    "name": "Copy",
+    "description": "AI tool for writing marketing copy, emails, and social posts.",
+    "category": "Writing Assistant",
+    "createdDate": "2023-05-26T09:00:00Z",
+    "updatedDate": "2024-07-21T09:00:00Z",
+    "url": "https://www.copy.ai"
+  },
+  {
+    "id": "8",
+    "name": "Jasper",
+    "description": "AI-powered writing assistant for marketers and businesses.",
+    "category": "Writing Assistant",
+    "createdDate": "2023-02-25T09:00:00Z",
+    "updatedDate": "2024-06-09T09:00:00Z",
+    "url": "https://www.jasper.ai"
+  },
+  {
+    "id": "9",
+    "name": "GitHubCopilot",
+    "description": "AI pair programmer built into Visual Studio Code.",
+    "category": "Coding",
+    "createdDate": "2023-03-03T09:00:00Z",
+    "updatedDate": "2024-02-19T09:00:00Z",
+    "url": "https://github.com/features/copilot"
+  },
+  {
+    "id": "10",
+    "name": "ElevenLabs",
+    "description": "High-quality AI voice synthesis tool.",
+    "category": "Audio",
+    "createdDate": "2023-05-25T09:00:00Z",
+    "updatedDate": "2024-03-21T09:00:00Z",
+    "url": "https://www.elevenlabs.io"
+  },
+  {
+    "id": "11",
+    "name": "Descript",
+    "description": "All-in-one audio and video editor with AI features.",
+    "category": "Audio",
+    "createdDate": "2023-02-12T09:00:00Z",
+    "updatedDate": "2024-02-03T09:00:00Z",
+    "url": "https://www.descript.com"
+  },
+  {
+    "id": "12",
+    "name": "Uizard",
+    "description": "Generate UI/UX mockups from plain text.",
+    "category": "Design",
+    "createdDate": "2023-05-09T09:00:00Z",
+    "updatedDate": "2024-04-25T09:00:00Z",
+    "url": "https://uizard.io"
+  },
+  {
+    "id": "13",
+    "name": "Khroma",
+    "description": "AI color palette generator for designers.",
+    "category": "Design",
+    "createdDate": "2023-02-10T09:00:00Z",
+    "updatedDate": "2024-01-19T09:00:00Z",
+    "url": "https://www.khroma.co"
+  },
+  {
+    "id": "14",
+    "name": "Galileo",
+    "description": "Generate UI designs with natural language.",
+    "category": "Design",
+    "createdDate": "2023-06-17T09:00:00Z",
+    "updatedDate": "2024-06-07T09:00:00Z",
+    "url": "https://www.usegalileo.ai"
+  },
+  {
+    "id": "15",
+    "name": "Gemini",
+    "description": "Google's AI chatbot integrated with search and coding features.",
+    "category": "Chatbot",
+    "createdDate": "2023-05-07T09:00:00Z",
+    "updatedDate": "2024-07-20T09:00:00Z",
+    "url": "https://gemini.google.com"
+  },
+  {
+    "id": "16",
+    "name": "Pi",
+    "description": "Emotional, empathetic AI chatbot by Inflection.",
+    "category": "Chatbot",
+    "createdDate": "2023-06-01T09:00:00Z",
+    "updatedDate": "2024-04-04T09:00:00Z",
+    "url": "https://pi.ai"
+  },
+  {
+    "id": "17",
+    "name": "Stability",
+    "description": "Open-source model for local image generation.",
+    "category": "Image Generation",
+    "createdDate": "2023-05-03T09:00:00Z",
+    "updatedDate": "2024-07-01T09:00:00Z",
+    "url": "https://stability.ai"
+  },
+  {
+    "id": "18",
+    "name": "PikaLabs",
+    "description": "Stylized text-to-video AI generation tool.",
+    "category": "Video Generation",
+    "createdDate": "2023-02-09T09:00:00Z",
+    "updatedDate": "2024-07-27T09:00:00Z",
+    "url": "https://www.pika.art"
+  },
+  {
+    "id": "19",
+    "name": "Synthesia",
+    "description": "Create videos with talking AI avatars from text.",
+    "category": "Video Generation",
+    "createdDate": "2023-06-06T09:00:00Z",
+    "updatedDate": "2024-01-03T09:00:00Z",
+    "url": "https://www.synthesia.io"
+  },
+  {
+    "id": "20",
+    "name": "HeyGen",
+    "description": "Generate avatar-based videos for marketing and training.",
+    "category": "Video Generation",
+    "createdDate": "2023-04-08T09:00:00Z",
+    "updatedDate": "2024-02-11T09:00:00Z",
+    "url": "https://www.heygen.com"
+  },
+  {
+    "id": "21",
+    "name": "Kaiber",
+    "description": "Turn images and music into animated visuals.",
+    "category": "Video Generation",
+    "createdDate": "2023-01-16T09:00:00Z",
+    "updatedDate": "2024-06-21T09:00:00Z",
+    "url": "https://www.kaiber.ai"
+  },
+  {
+    "id": "22",
+    "name": "GrammarlyGO",
+    "description": "AI writing assistant built into Grammarly.",
+    "category": "Writing Assistant",
+    "createdDate": "2023-05-16T09:00:00Z",
+    "updatedDate": "2024-01-25T09:00:00Z",
+    "url": "https://www.grammarly.com/grammarlygo"
+  },
+  {
+    "id": "23",
+    "name": "Notion",
+    "description": "AI writing and brainstorming assistant built into Notion.",
+    "category": "Writing Assistant",
+    "createdDate": "2023-06-03T09:00:00Z",
+    "updatedDate": "2024-07-01T09:00:00Z",
+    "url": "https://www.notion.so/product/ai"
+  },
+  {
+    "id": "24",
+    "name": "SudoWrite",
+    "description": "AI tool to help creative writers write better stories.",
+    "category": "Writing Assistant",
+    "createdDate": "2023-02-11T09:00:00Z",
+    "updatedDate": "2024-03-12T09:00:00Z",
+    "url": "https://www.sudowrite.com"
+  },
+  {
+    "id": "25",
+    "name": "Cursor",
+    "description": "AI-enhanced code editor alternative to Copilot.",
+    "category": "Coding",
+    "createdDate": "2023-01-13T09:00:00Z",
+    "updatedDate": "2024-07-04T09:00:00Z",
+    "url": "https://www.cursor.so"
+  },
+  {
+    "id": "26",
+    "name": "ReplitGhostwriter",
+    "description": "In-browser AI dev assistant for fast prototyping.",
+    "category": "Coding",
+    "createdDate": "2023-03-15T09:00:00Z",
+    "updatedDate": "2024-04-11T09:00:00Z",
+    "url": "https://replit.com/ghostwriter"
+  },
+  {
+    "id": "27",
+    "name": "Codeium",
+    "description": "Free AI coding assistant for multiple languages.",
+    "category": "Coding",
+    "createdDate": "2023-01-20T09:00:00Z",
+    "updatedDate": "2024-01-18T09:00:00Z",
+    "url": "https://codeium.com"
+  },
+  {
+    "id": "28",
+    "name": "Tabnine",
+    "description": "Lightweight AI autocompletion tool for developers.",
+    "category": "Coding",
+    "createdDate": "2023-03-26T09:00:00Z",
+    "updatedDate": "2024-05-05T09:00:00Z",
+    "url": "https://www.tabnine.com"
+  },
+  {
+    "id": "29",
+    "name": "Voicemod",
+    "description": "Real-time AI voice changer and soundboard.",
+    "category": "Audio",
+    "createdDate": "2023-05-25T09:00:00Z",
+    "updatedDate": "2024-05-15T09:00:00Z",
+    "url": "https://www.voicemod.net"
+  },
+  {
+    "id": "30",
+    "name": "Murf",
+    "description": "Realistic voiceover generation for presentations and training.",
+    "category": "Audio",
+    "createdDate": "2023-04-24T09:00:00Z",
+    "updatedDate": "2024-01-09T09:00:00Z",
+    "url": "https://murf.ai"
+  },
+  {
+    "id": "31",
+    "name": "Riffusion",
+    "description": "Generate music from text prompts using AI.",
+    "category": "Audio",
+    "createdDate": "2023-04-14T09:00:00Z",
+    "updatedDate": "2024-06-17T09:00:00Z",
+    "url": "https://www.riffusion.com"
+  },
+  {
+    "id": "32",
+    "name": "Genei",
+    "description": "AI summarizer for academic papers and research.",
+    "category": "Research",
+    "createdDate": "2023-04-20T09:00:00Z",
+    "updatedDate": "2024-04-15T09:00:00Z",
+    "url": "https://www.genei.io"
+  },
+  {
+    "id": "33",
+    "name": "Humata",
+    "description": "Chat with PDFs and extract key info fast.",
+    "category": "Research",
+    "createdDate": "2023-02-23T09:00:00Z",
+    "updatedDate": "2024-01-07T09:00:00Z",
+    "url": "https://www.humata.ai"
+  },
+  {
+    "id": "34",
+    "name": "Browse",
+    "description": "No-code web scraping and site monitoring tool.",
+    "category": "Research",
+    "createdDate": "2023-05-03T09:00:00Z",
+    "updatedDate": "2024-02-26T09:00:00Z",
+    "url": "https://www.browse.ai"
+  },
+  {
+    "id": "35",
+    "name": "Tome",
+    "description": "Create presentations and storytelling decks with AI.",
+    "category": "Research",
+    "createdDate": "2023-03-04T09:00:00Z",
+    "updatedDate": "2024-05-19T09:00:00Z",
+    "url": "https://tome.app"
+  },
+  {
+    "id": "36",
+    "name": "Zapier + AI",
+    "description": "Automate tasks across thousands of apps using GPT-based text parsing, summarization, and filtering.",
+    "category": "Automation",
+    "createdDate": "2023-04-16T09:00:00Z",
+    "updatedDate": "2024-05-23T09:00:00Z",
+    "url": "https://zapier.com"
+  },
+  {
+    "id": "37",
+    "name": "Make.com",
+    "description": "Visual no-code automation platform that supports OpenAI modules for AI-powered workflows.",
+    "category": "Automation",
+    "createdDate": "2023-04-13T09:00:00Z",
+    "updatedDate": "2024-01-23T09:00:00Z",
+    "url": "https://www.make.com"
+  },
+  {
+    "id": "38",
+    "name": "Pipedream",
+    "description": "Serverless workflow automation for developers with built-in support for GPT and AI APIs.",
+    "category": "Automation",
+    "createdDate": "2023-04-07T09:00:00Z",
+    "updatedDate": "2024-03-28T09:00:00Z",
+    "url": "https://pipedream.com"
+  },
+  {
+    "id": "39",
+    "name": "n8n",
+    "description": "Open-source workflow automation tool that integrates with OpenAI and other AI services.",
+    "category": "Automation",
+    "createdDate": "2023-04-07T09:00:00Z",
+    "updatedDate": "2024-07-20T09:00:00Z",
+    "url": "https://n8n.io"
+  },
+  {
+    "id": "40",
+    "name": "Trello + Butler AI",
+    "description": "Automates Trello boards using built-in Butler AI for task suggestions, reminders, and triggers.",
+    "category": "Automation",
+    "createdDate": "2023-01-09T09:00:00Z",
+    "updatedDate": "2024-04-08T09:00:00Z",
+    "url": "https://trello.com/butler-ai"
+  }
+]
