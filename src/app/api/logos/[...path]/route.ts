@@ -7,10 +7,11 @@ const LOGOS_DIR = path.join(process.cwd(), "public", "logos");
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { path: string[] } }
+  { params }: { params: Promise<{ path: string[] }> }
 ) {
+  const resolvedParams = await params;
   try {
-    const imagePath = params.path.join("/");
+    const imagePath = resolvedParams.path.join("/");
     const fullPath = path.join(LOGOS_DIR, imagePath);
 
     // Security check: prevent directory traversal
