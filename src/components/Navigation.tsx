@@ -1,8 +1,4 @@
 import { LoginButton } from "./LoginButton";
-import { AuthStatus } from "./AuthStatus";
-import { EnvironmentCheck } from "./EnvironmentCheck";
-import { SupabaseTest } from "./SupabaseTest";
-import { SupabaseConfigCheck } from "./SupabaseConfigCheck";
 
 export default function Navigation() {
   return (
@@ -123,18 +119,6 @@ export default function Navigation() {
 
           {/* Login Button */}
           <LoginButton />
-
-          {/* Auth Status (for testing) */}
-          <AuthStatus />
-
-          {/* Environment Check (for debugging) */}
-          <EnvironmentCheck />
-
-          {/* Supabase Test */}
-          <SupabaseTest />
-
-          {/* Supabase Config Check */}
-          <SupabaseConfigCheck />
         </div>
       </div>
     </nav>
