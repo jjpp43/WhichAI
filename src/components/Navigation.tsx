@@ -12,7 +12,7 @@ export default function Navigation() {
         {/* Navigation Items */}
         <div className="flex items-center space-x-8">
           {/* Category Dropdown */}
-          <div className="relative group">
+          {/* <div className="relative group">
             <button className="flex items-center text-neutral-600 hover:text-neutral-900 font-medium transition-colors duration-200">
               Category
               <svg
@@ -57,7 +57,7 @@ export default function Navigation() {
                 </a>
               </div>
             </div>
-          </div>
+          </div> */}
 
           {/* Most Used Dropdown */}
           <div className="relative group">
