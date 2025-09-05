@@ -3,6 +3,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { CalendarDays, Clock, User, ArrowRight } from "lucide-react";
 import { getFeaturedPosts, getRegularPosts } from "@/data/blog-posts";
+import Navigation from "@/components/Navigation";
+import DotGrid from "@/components/reactBits/DotGrid/DotGrid";
 
 export const metadata: Metadata = {
   title: "AI Blog - Latest Insights, Guides, and Tool Reviews",
@@ -31,16 +33,47 @@ export default function BlogPage() {
   const regularPosts = getRegularPosts();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-neutral-50 via-blue-50/20 to-indigo-50/30">
-      <div className="max-w-6xl mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-neutral-900 mb-4">AI Blog</h1>
-          <p className="text-xl text-neutral-600 max-w-2xl mx-auto">
-            Stay updated with the latest AI trends, comprehensive guides, and
-            in-depth reviews of AI tools.
-          </p>
-        </div>
+    <>
+      <div>
+        {/* Hero Section */}
+        <section
+          style={{ width: "100%", height: "600px", position: "relative" }}
+        >
+          <div className="absolute top-0 w-full z-10">
+            <Navigation />
+          </div>
+          <DotGrid
+            dotSize={3}
+            gap={20}
+            baseColor="#D6CCFF"
+            activeColor="#7B5AFF"
+            proximity={120}
+            shockRadius={200}
+            shockStrength={1}
+            resistance={750}
+            returnDuration={1.5}
+          />
+          {/* Gradient overlay to fade out only the dot grid */}
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white z-5 pointer-events-none" />
+          <div className="absolute inset-0 flex flex-col items-center justify-center">
+            <div className="relative z-10 flex flex-col items-center">
+              <h1 className="text-4xl sm:text-5xl font-bold mb-4 tracking-tight text-neutral-900">
+                Discover the Best AI Tools
+              </h1>
+              <p className="text-lg sm:text-xl text-neutral-600 text-center tracking-wide max-w-2xl mb-8">
+                Your curated directory for the latest and greatest AI-powered
+                apps. Find, compare, and explore the future of productivity and
+                creativity.
+              </p>
+              <a
+                href="#cards"
+                className="inline-block px-7 py-3 rounded-lg bg-indigo-600 text-white font-semibold shadow-md hover:bg-indigo-700 transition-colors duration-200"
+              >
+                Explore Tools
+              </a>
+            </div>
+          </div>
+        </section>
 
         {/* Featured Posts */}
         {featuredPosts.length > 0 && (
@@ -170,6 +203,13 @@ export default function BlogPage() {
           </div>
         </div>
       </div>
-    </div>
+
+      {/* Footer */}
+      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
+        <p className="text-sm text-neutral-600">
+          © 2024 AI Tools Hub. All rights reserved.
+        </p>
+      </footer>
+    </>
   );
 }

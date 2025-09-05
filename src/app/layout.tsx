@@ -145,8 +145,13 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <AuthProvider>{children}</AuthProvider>
-        <Analytics />
+        <AuthProvider>
+          <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-4 pb-20">
+            <main className="flex flex-col row-start-2 items-center sm:items-start w-full max-w-6xl">
+              {children}
+            </main>
+          </div>
+        </AuthProvider>
       </body>
     </html>
   );

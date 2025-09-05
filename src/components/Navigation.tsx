@@ -60,7 +60,7 @@ export default function Navigation() {
           </div> */}
 
           {/* Most Used Dropdown */}
-          <div className="relative group">
+          {/* <div className="relative group">
             <button className="flex items-center text-neutral-600 hover:text-neutral-900 font-medium transition-colors duration-200">
               Most Used
               <svg
@@ -99,7 +99,15 @@ export default function Navigation() {
                 </a>
               </div>
             </div>
-          </div>
+          </div> */}
+
+          {/* AI Tools Link */}
+          <a
+            href="/"
+            className="text-neutral-600 hover:text-neutral-900 font-medium transition-colors duration-200"
+          >
+            AI Tools
+          </a>
 
           {/* Blog Link */}
           <a
