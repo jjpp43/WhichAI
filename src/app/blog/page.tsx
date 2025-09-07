@@ -2,9 +2,11 @@ import { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { CalendarDays, Clock, User, ArrowRight } from "lucide-react";
-import { getFeaturedPosts, getRegularPosts } from "@/data/blog-posts";
+import { getPublishedBlogPosts } from "@/lib/blog/blog";
 import Navigation from "@/components/Navigation";
 import DotGrid from "@/components/reactBits/DotGrid/DotGrid";
+// Add this import at the top
+import { FloatingActionButton } from "@/components/blog/FloatingActionButton";
 
 export const metadata: Metadata = {
   title: "AI Blog - Latest Insights, Guides, and Tool Reviews",
@@ -28,9 +30,8 @@ export const metadata: Metadata = {
   },
 };
 
-export default function BlogPage() {
-  const featuredPosts = getFeaturedPosts();
-  const regularPosts = getRegularPosts();
+export default async function BlogPage() {
+  const posts = await getPublishedBlogPosts(); // This will fetch from Supabase
 
   return (
     <>
@@ -58,39 +59,39 @@ export default function BlogPage() {
           <div className="absolute inset-0 flex flex-col items-center justify-center">
             <div className="relative z-10 flex flex-col items-center">
               <h1 className="text-4xl sm:text-5xl font-bold mb-4 tracking-tight text-neutral-900">
-                Discover the Best AI Tools
+                AI Blog & Resources
               </h1>
               <p className="text-lg sm:text-xl text-neutral-600 text-center tracking-wide max-w-2xl mb-8">
-                Your curated directory for the latest and greatest AI-powered
-                apps. Find, compare, and explore the future of productivity and
-                creativity.
+                Stay ahead with expert analysis, practical tutorials, and the
+                latest developments in artificial intelligence and machine
+                learning.
               </p>
               <a
                 href="#cards"
                 className="inline-block px-7 py-3 rounded-lg bg-indigo-600 text-white font-semibold shadow-md hover:bg-indigo-700 transition-colors duration-200"
               >
-                Explore Tools
+                Read Articles
               </a>
             </div>
           </div>
         </section>
 
         {/* Featured Posts */}
-        {featuredPosts.length > 0 && (
+        {posts.length > 0 && (
           <div className="mb-12">
             <h2 className="text-2xl font-semibold text-neutral-900 mb-6">
               Featured Articles
             </h2>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {featuredPosts.map((post) => (
+              {posts.map((post) => (
                 <div
                   key={post.id}
                   className="bg-white rounded-xl shadow-sm border border-neutral-100 overflow-hidden hover:shadow-lg transition-shadow"
                 >
-                  {post.image && (
+                  {post.featured_image_url && (
                     <div className="relative h-48 overflow-hidden">
                       <Image
-                        src={post.image}
+                        src={post.featured_image_url}
                         alt={post.title}
                         fill
                         className="object-cover"
@@ -103,10 +104,10 @@ export default function BlogPage() {
                       <span className="px-3 py-1 bg-indigo-100 text-indigo-800 text-sm font-medium rounded-full">
                         {post.category}
                       </span>
-                      <span className="text-sm text-neutral-500">•</span>
+                      {/* <span className="text-sm text-neutral-500">•</span>
                       <span className="text-sm text-neutral-500">
-                        {post.readTime}
-                      </span>
+                        {post.read_time}
+                      </span> */}
                     </div>
                     <h3 className="text-2xl font-bold text-neutral-900 mb-3">
                       {post.title}
@@ -117,12 +118,14 @@ export default function BlogPage() {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-4 text-sm text-neutral-500">
                         <div className="flex items-center gap-1">
-                          <User className="w-4 h-4" />
-                          {post.author}
+                          <CalendarDays className="w-4 h-4" />
+                          {new Date(
+                            post.published_at || post.created_at
+                          ).toLocaleDateString()}
                         </div>
                         <div className="flex items-center gap-1">
-                          <CalendarDays className="w-4 h-4" />
-                          {new Date(post.publishedDate).toLocaleDateString()}
+                          <Clock className="w-4 h-4" />
+                          {post.read_time} min read
                         </div>
                       </div>
                       <Link
@@ -146,15 +149,15 @@ export default function BlogPage() {
             Latest Articles
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {regularPosts.map((post) => (
+            {posts.map((post) => (
               <article
                 key={post.id}
                 className="bg-white rounded-xl shadow-sm border border-neutral-100 overflow-hidden hover:shadow-lg transition-shadow"
               >
-                {post.image && (
+                {post.featured_image_url && (
                   <div className="relative h-40 overflow-hidden">
                     <Image
-                      src={post.image}
+                      src={post.featured_image_url}
                       alt={post.title}
                       fill
                       className="object-cover"
@@ -167,10 +170,10 @@ export default function BlogPage() {
                     <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded-full">
                       {post.category}
                     </span>
-                    <span className="text-xs text-neutral-500">•</span>
+                    {/* <span className="text-xs text-neutral-500">•</span>
                     <span className="text-xs text-neutral-500">
-                      {post.readTime}
-                    </span>
+                      {post.read_time}
+                    </span> */}
                   </div>
                   <h3 className="text-lg font-bold text-neutral-900 mb-2 line-clamp-2">
                     {post.title}
@@ -181,12 +184,14 @@ export default function BlogPage() {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3 text-xs text-neutral-500">
                       <div className="flex items-center gap-1">
-                        <User className="w-3 h-3" />
-                        {post.author}
+                        <CalendarDays className="w-4 h-4" />
+                        {new Date(
+                          post.published_at || post.created_at
+                        ).toLocaleDateString()}
                       </div>
                       <div className="flex items-center gap-1">
-                        <CalendarDays className="w-3 h-3" />
-                        {new Date(post.publishedDate).toLocaleDateString()}
+                        <Clock className="w-4 h-4" />
+                        {post.read_time} min read
                       </div>
                     </div>
                     <Link
@@ -202,14 +207,8 @@ export default function BlogPage() {
             ))}
           </div>
         </div>
+        <FloatingActionButton />
       </div>
-
-      {/* Footer */}
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <p className="text-sm text-neutral-600">
-          © 2024 AI Tools Hub. All rights reserved.
-        </p>
-      </footer>
     </>
   );
 }

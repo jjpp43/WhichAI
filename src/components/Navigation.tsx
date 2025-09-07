@@ -118,12 +118,12 @@ export default function Navigation() {
           </a>
 
           {/* About Link */}
-          <a
+          {/* <a
             href="#"
             className="text-neutral-600 hover:text-neutral-900 font-medium transition-colors duration-200"
           >
             About
-          </a>
+          </a> */}
 
           {/* Login Button */}
           <LoginButton />

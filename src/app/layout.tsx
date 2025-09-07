@@ -152,6 +152,12 @@ export default function RootLayout({
             </main>
           </div>
         </AuthProvider>
+        {/* Footer */}
+        <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
+          <p className="text-sm text-neutral-600">
+            © 2024 AI Tools Hub. All rights reserved.
+          </p>
+        </footer>
       </body>
     </html>
   );

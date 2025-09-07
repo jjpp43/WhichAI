@@ -19,15 +19,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     // Get initial session
-    const getSession = async () => {
+    const getInitialSession = async () => {
       const {
         data: { session },
+        error,
       } = await supabase.auth.getSession();
-      setUser(session?.user ?? null);
+      if (error) {
+        console.error("Error getting session:", error);
+      } else {
+        setUser(session?.user ?? null);
+      }
       setLoading(false);
     };
 
-    getSession();
+    getInitialSession();
 
     // Listen for auth changes
     const {
@@ -41,26 +46,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const signInWithGoogle = async () => {
-    try {
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: "google",
-        options: {
-          redirectTo: `${window.location.origin}/auth/callback`,
-          queryParams: {
-            access_type: "offline",
-            prompt: "consent",
-          },
-        },
-      });
-      if (error) throw error;
-    } catch (error) {
-      console.error("Sign in error:", error);
-      alert("Failed to sign in with Google. Please try again.");
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
+    });
+    if (error) {
+      console.error("Error signing in with Google:", error);
     }
   };
 
   const signOut = async () => {
-    await supabase.auth.signOut();
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      console.error("Error signing out:", error);
+    }
   };
 
   return (
