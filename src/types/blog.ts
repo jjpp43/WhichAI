@@ -33,8 +33,10 @@ export interface CreateBlogPostData {
   excerpt?: string;
   content: any;
   status: "draft" | "published";
+  author_id: string; // Added this
   featured_image_url?: string;
   category?: string;
   seo_title?: string;
   seo_description?: string;
+  published_at?: string; // Added this
 }

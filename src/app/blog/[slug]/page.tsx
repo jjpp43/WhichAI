@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getBlogPostBySlug } from "@/lib/blog/blog";
 import { CalendarDays, Clock, User, ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import { JSX } from "react";
 
 interface BlogPostPageProps {
   params: {
