@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { BlogPost } from "@/types/blog";
+import { useAuth } from "@/components/AuthProvider";
 
 interface BlogEditorProps {
   initialData?: BlogPost;
@@ -19,6 +20,7 @@ export function BlogEditor({
   const editorRef = useRef<any>(null);
   const [isEditorReady, setIsEditorReady] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const { user, getAccessToken } = useAuth();
 
   // Ensure component only runs on client side
   useEffect(() => {
@@ -55,7 +57,7 @@ export function BlogEditor({
           data: initialData?.content || { blocks: [] },
           tools: {
             header: {
-              class: Header,
+              class: Header as any,
               config: {
                 placeholder: "Enter a header",
                 levels: [1, 2, 3, 4, 5, 6],
@@ -63,14 +65,14 @@ export function BlogEditor({
               },
             },
             list: {
-              class: List,
+              class: List as any,
               inlineToolbar: true,
               config: {
                 defaultStyle: "unordered",
               },
             },
             paragraph: {
-              class: Paragraph,
+              class: Paragraph as any,
               inlineToolbar: true,
             },
             image: {
@@ -82,8 +84,17 @@ export function BlogEditor({
                       const formData = new FormData();
                       formData.append("file", file);
 
+                      // Get the access token for authentication
+                      const token = await getAccessToken();
+                      if (!token) {
+                        throw new Error("Not authenticated");
+                      }
+
                       const response = await fetch("/api/blog/upload-image", {
                         method: "POST",
+                        headers: {
+                          Authorization: `Bearer ${token}`,
+                        },
                         body: formData,
                       });
 
@@ -156,7 +167,7 @@ export function BlogEditor({
               },
             },
             table: {
-              class: Table,
+              class: Table as any,
               inlineToolbar: true,
               config: {
                 rows: 2,
@@ -203,7 +214,7 @@ export function BlogEditor({
         editorRef.current.destroy();
       }
     };
-  }, [isMounted, initialData]);
+  }, [isMounted, initialData, getAccessToken]);
 
   const handleSave = async () => {
     if (!editorRef.current) return;

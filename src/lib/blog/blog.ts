@@ -22,8 +22,19 @@ export function estimateReadTime(content: any): number {
     } else if (block.type === "header" && block.data?.text) {
       wordCount += block.data.text.split(" ").length;
     } else if (block.type === "list" && block.data?.items) {
-      block.data.items.forEach((item: string) => {
-        wordCount += item.split(" ").length;
+      block.data.items.forEach((item: any) => {
+        // Handle different list item formats
+        let itemText = "";
+        if (typeof item === "string") {
+          itemText = item;
+        } else if (typeof item === "object" && item !== null) {
+          // Try different possible properties
+          itemText = item.content || item.text || item.value || "";
+        }
+
+        if (itemText) {
+          wordCount += itemText.split(" ").length;
+        }
       });
     }
   });

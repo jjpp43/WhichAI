@@ -1,39 +1,66 @@
-import { Metadata } from "next";
-import { notFound } from "next/navigation";
-import { getBlogPostBySlug } from "@/lib/blog/blog";
+"use client";
+
+import { useState, useEffect } from "react";
+import { useParams } from "next/navigation";
 import { CalendarDays, Clock, User, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { JSX } from "react";
 
-interface BlogPostPageProps {
-  params: {
-    slug: string;
-  };
+interface BlogPost {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt?: string;
+  content: any;
+  author_id: string;
+  status: "draft" | "published" | "archived";
+  featured_image_url?: string;
+  category?: string;
+  read_time?: number;
+  seo_title?: string;
+  seo_description?: string;
+  published_at?: string;
+  created_at: string;
+  updated_at: string;
 }
 
-export async function generateMetadata({
-  params,
-}: BlogPostPageProps): Promise<Metadata> {
-  const post = await getBlogPostBySlug(params.slug);
+export default function BlogPostPage() {
+  const params = useParams();
+  const slug = params.slug as string;
 
-  if (!post) {
-    return {
-      title: "Post Not Found",
+  const [post, setPost] = useState<BlogPost | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchPost = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(`/api/blog/posts/${slug}`);
+
+        if (!response.ok) {
+          if (response.status === 404) {
+            setError("Post not found");
+          } else {
+            setError("Failed to load post");
+          }
+          return;
+        }
+
+        const data = await response.json();
+        setPost(data);
+      } catch (err) {
+        console.error("Error fetching post:", err);
+        setError("Failed to load post");
+      } finally {
+        setLoading(false);
+      }
     };
-  }
 
-  return {
-    title: post.seo_title || post.title,
-    description: post.seo_description || post.excerpt,
-  };
-}
-
-export default async function BlogPostPage({ params }: BlogPostPageProps) {
-  const post = await getBlogPostBySlug(params.slug);
-
-  if (!post) {
-    notFound();
-  }
+    if (slug) {
+      fetchPost();
+    }
+  }, [slug]);
 
   // Render Editor.js content
   const renderContent = (content: any) => {
@@ -72,9 +99,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 block.data.style === "ordered" ? "list-decimal" : "list-disc"
               } list-inside`}
             >
-              {block.data.items.map((item: string, itemIndex: number) => (
+              {block.data.items.map((item: any, itemIndex: number) => (
                 <li key={itemIndex} className="text-gray-700 leading-relaxed">
-                  {item}
+                  {typeof item === "string"
+                    ? item
+                    : item.content || item.text || item.value || ""}
                 </li>
               ))}
             </ListTag>
@@ -199,6 +228,45 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     });
   };
 
+  if (loading) {
+    return (
+      <div className="w-full min-h-screen bg-gray-50 py-8">
+        <div className="max-w-4xl mx-auto px-4">
+          <div className="bg-white rounded-lg shadow-sm border p-8">
+            <div className="animate-pulse">
+              <div className="h-8 bg-gray-200 rounded mb-4"></div>
+              <div className="h-4 bg-gray-200 rounded mb-2"></div>
+              <div className="h-4 bg-gray-200 rounded mb-2"></div>
+              <div className="h-4 bg-gray-200 rounded mb-8"></div>
+              <div className="h-64 bg-gray-200 rounded"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !post) {
+    return (
+      <div className="w-full min-h-screen bg-gray-50 py-8">
+        <div className="max-w-4xl mx-auto px-4">
+          <div className="bg-white rounded-lg shadow-sm border p-8 text-center">
+            <h1 className="text-2xl font-bold text-gray-900 mb-4">
+              {error || "Post Not Found"}
+            </h1>
+            <Link
+              href="/blog"
+              className="inline-flex items-center text-blue-600 hover:text-blue-800"
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back to Blog
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full min-h-screen bg-gray-50 py-8">
       <div className="max-w-4xl mx-auto px-4">
@@ -238,7 +306,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
               <div className="flex items-center">
                 <Clock className="w-4 h-4 mr-2" />
-                {post.read_time} min read
+                {post.read_time || 1} min read
               </div>
 
               {post.category && (

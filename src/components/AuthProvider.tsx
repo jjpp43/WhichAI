@@ -9,6 +9,7 @@ interface AuthContextType {
   loading: boolean;
   signInWithGoogle: () => Promise<void>;
   signOut: () => Promise<void>;
+  getAccessToken: () => Promise<string | null>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -64,8 +65,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const getAccessToken = async (): Promise<string | null> => {
+    try {
+      const { data, error } = await supabase.auth.getSession();
+      if (error) {
+        console.error("Error getting access token:", error);
+        return null;
+      }
+      return data.session?.access_token ?? null;
+    } catch (err) {
+      console.error("Unexpected error getting access token:", err);
+      return null;
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, loading, signInWithGoogle, signOut }}>
+    <AuthContext.Provider
+      value={{ user, loading, signInWithGoogle, signOut, getAccessToken }}
+    >
       {children}
     </AuthContext.Provider>
   );

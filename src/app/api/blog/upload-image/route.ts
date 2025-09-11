@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createServerClient } from "@supabase/ssr";
-import { cookies } from "next/headers";
 
 export async function POST(request: NextRequest) {
   try {
@@ -18,56 +17,53 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const cookieStore = await cookies();
-
-    // Create Supabase client with proper cookie handling
+    // Create Supabase client using request headers instead of cookies
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
       {
         cookies: {
           get(name: string) {
-            return cookieStore.get(name)?.value;
+            return request.cookies.get(name)?.value;
           },
           set(name: string, value: string, options: any) {
-            cookieStore.set({ name, value, ...options });
+            // Don't set cookies in API routes
           },
           remove(name: string, options: any) {
-            cookieStore.set({ name, value: "", ...options });
+            // Don't remove cookies in API routes
           },
         },
       }
     );
 
-    // Get the session from the request
-    const {
-      data: { session },
-      error: sessionError,
-    } = await supabase.auth.getSession();
-
-    console.log("Session check result:", {
-      session: !!session,
-      user: !!session?.user,
-      error: sessionError?.message,
-    });
-
-    if (sessionError) {
-      console.error("Session error:", sessionError);
-      return NextResponse.json(
-        { error: "Session error: " + sessionError.message },
-        { status: 401 }
-      );
-    }
-
-    if (!session || !session.user) {
-      console.log("No valid session found");
+    // Get the session from the request headers
+    const authHeader = request.headers.get("authorization");
+    if (!authHeader) {
+      console.log("No authorization header found");
       return NextResponse.json(
         { error: "User not authenticated" },
         { status: 401 }
       );
     }
 
-    console.log("User authenticated:", session.user.email);
+    // Extract token from Bearer header
+    const token = authHeader.replace("Bearer ", "");
+
+    // Verify the token and get user
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser(token);
+
+    if (userError || !user) {
+      console.error("User verification error:", userError);
+      return NextResponse.json(
+        { error: "Invalid authentication token" },
+        { status: 401 }
+      );
+    }
+
+    console.log("User authenticated:", user.email);
 
     const formData = await request.formData();
     const file = formData.get("file") as File;
@@ -129,10 +125,10 @@ export async function POST(request: NextRequest) {
       url: publicUrl,
       fileName: fileName,
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Image upload error:", error);
     return NextResponse.json(
-      { error: "Internal server error: " + error.message },
+      { error: "Internal server error: " + (error.message || "Unknown error") },
       { status: 500 }
     );
   }
