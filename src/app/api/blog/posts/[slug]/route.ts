@@ -3,7 +3,7 @@ import { createServerClient } from "@supabase/ssr";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
     // Check environment variables
@@ -37,13 +37,14 @@ export async function GET(
       }
     );
 
-    console.log("Fetching blog post with slug:", params.slug);
+    const { slug } = await params;
+    console.log("fetching blog post with slug: ", slug);
 
     // Query blog_posts table (no profiles join since author_id references auth.users)
     const { data: post, error } = await supabase
       .from("blog_posts")
       .select("*")
-      .eq("slug", params.slug)
+      .eq("slug", slug)
       .eq("status", "published")
       .single();
 
@@ -53,7 +54,7 @@ export async function GET(
     }
 
     if (!post) {
-      console.log("No post found with slug:", params.slug);
+      console.log("No post found with slug:", slug);
       return NextResponse.json({ error: "Post not found" }, { status: 404 });
     }
 
