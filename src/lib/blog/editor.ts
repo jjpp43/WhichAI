@@ -65,7 +65,7 @@ export const editorConfig = {
               console.error("Image upload error:", error);
               return {
                 success: 0,
-                error: error.message || "Failed to upload image",
+                error: "Failed to upload image",
               };
             }
           },
