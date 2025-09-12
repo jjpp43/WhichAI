@@ -24,6 +24,31 @@ interface BlogPost {
   updated_at: string;
 }
 
+// Helper function to render text with HTML entities and bold tags
+const renderTextWithHTML = (text: string) => {
+  if (!text) return "";
+
+  // Decode HTML entities
+  const decodedText = text
+    .replace(/&nbsp;/g, "\u00A0")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'");
+
+  // Split by <b> tags and render accordingly
+  const parts = decodedText.split(/(<b>.*?<\/b>)/g);
+
+  return parts.map((part, index) => {
+    if (part.startsWith("<b>") && part.endsWith("</b>")) {
+      const boldText = part.slice(3, -4); // Remove <b> and </b>
+      return <b key={index}>{boldText}</b>;
+    }
+    return part;
+  });
+};
+
 export default function BlogPostPage() {
   const params = useParams();
   const slug = params.slug as string;
@@ -76,8 +101,17 @@ export default function BlogPostPage() {
               key={index}
               className="font-bold text-gray-900 mt-8 mb-4"
             >
-              {block.data.text}
+              {renderTextWithHTML(block.data.text)}
             </HeaderTag>
+          );
+        case "bold":
+          return (
+            <b
+              key={index}
+              className="mb-4 text-gray-700 leading-relaxed whitespace-pre-wrap break-words"
+            >
+              {renderTextWithHTML(block.data.text)}
+            </b>
           );
 
         case "paragraph":
@@ -86,7 +120,7 @@ export default function BlogPostPage() {
               key={index}
               className="mb-4 text-gray-700 leading-relaxed whitespace-pre-wrap break-words"
             >
-              {block.data.text}
+              {renderTextWithHTML(block.data.text)}
             </p>
           );
 
