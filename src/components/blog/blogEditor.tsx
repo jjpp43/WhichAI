@@ -21,11 +21,59 @@ export function BlogEditor({
   const [isEditorReady, setIsEditorReady] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const { user, getAccessToken } = useAuth();
+  const resizeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Ensure component only runs on client side
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
+  // Handle window resize to maintain editor focus
+  useEffect(() => {
+    if (!isMounted || !isEditorReady) return;
+
+    const handleResize = () => {
+      if (!editorRef.current) return;
+
+      // debounce
+      if (resizeTimeoutRef.current) {
+        clearTimeout(resizeTimeoutRef.current);
+      }
+
+      // Save selection and current block index
+      const api = editorRef.current;
+      let currentBlockIndex: number | null = null;
+      try {
+        currentBlockIndex = api.blocks.getCurrentBlockIndex?.() ?? null;
+        api.selection?.save?.();
+      } catch {}
+
+      resizeTimeoutRef.current = setTimeout(() => {
+        try {
+          // Restore selection if possible
+          api.selection?.restore?.();
+        } catch {}
+
+        // Ensure the editor regains focus
+        try {
+          if (currentBlockIndex !== null && currentBlockIndex >= 0) {
+            api.caret?.setToBlock?.(currentBlockIndex, "end");
+          } else {
+            api.caret?.focus?.(true);
+          }
+        } catch {}
+      }, 150);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      if (resizeTimeoutRef.current) {
+        clearTimeout(resizeTimeoutRef.current);
+      }
+    };
+  }, [isMounted, isEditorReady]);
 
   useEffect(() => {
     if (!isMounted) return;
@@ -214,7 +262,7 @@ export function BlogEditor({
         editorRef.current.destroy();
       }
     };
-  }, [isMounted, initialData, getAccessToken]);
+  }, [isMounted, initialData]);
 
   const handleSave = async () => {
     if (!editorRef.current) return;
