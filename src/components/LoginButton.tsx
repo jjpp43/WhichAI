@@ -14,20 +14,33 @@ export function LoginButton() {
   const { user, loading, signOut } = useAuth();
   const googleButtonRef = useRef<HTMLDivElement>(null);
   const [googleClientId, setGoogleClientId] = useState<string | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
+
+  // Prevent hydration mismatch by only rendering after mount
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   // Debug logging
-  console.log("LoginButton render:", { user, loading, googleClientId });
+  console.log("LoginButton render:", {
+    user: user?.id,
+    loading,
+    googleClientId,
+    isMounted,
+    hasGoogleClientId: !!process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
+  });
 
+  // Separate effect for Google button rendering
   useEffect(() => {
+    if (!isMounted || loading || user) return; // Don't render if loading or user is logged in
+
     // Check if Google Client ID is available
     const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
-    console.log("Google Client ID:", clientId);
+    console.log("Setting up Google button:", { clientId });
     setGoogleClientId(clientId || null);
 
     if (!clientId) {
-      console.warn(
-        "NEXT_PUBLIC_GOOGLE_CLIENT_ID is not set. Google pre-built button will not render."
-      );
+      console.warn("NEXT_PUBLIC_GOOGLE_CLIENT_ID is not set.");
       return;
     }
 
@@ -52,7 +65,6 @@ export function LoginButton() {
           alert("Failed to sign in with Google. Please try again.");
         } else {
           console.log("Successfully signed in with Google:", data);
-          // The AuthProvider will automatically update the user state
         }
       } catch (error) {
         console.error("Error signing in with Google:", error);
@@ -62,24 +74,24 @@ export function LoginButton() {
 
     // Initialize Google Sign-In when script loads
     script.onload = () => {
-      if (window.google && !user) {
+      if (window.google && googleButtonRef.current) {
+        // Clear any existing content
+        googleButtonRef.current.innerHTML = "";
+
         window.google.accounts.id.initialize({
           client_id: clientId,
           callback: window.handleSignInWithGoogle,
-          use_fedcm_for_prompt: true, // For Chrome's third-party cookie phase-out
+          use_fedcm_for_prompt: true,
         });
 
-        // Render the button
-        if (googleButtonRef.current) {
-          window.google.accounts.id.renderButton(googleButtonRef.current, {
-            type: "standard",
-            shape: "pill",
-            theme: "outline",
-            text: "signin_with",
-            size: "large",
-            logo_alignment: "left",
-          });
-        }
+        window.google.accounts.id.renderButton(googleButtonRef.current, {
+          type: "standard",
+          shape: "pill",
+          theme: "outline",
+          text: "signin_with",
+          size: "large",
+          logo_alignment: "left",
+        });
       }
     };
 
@@ -89,7 +101,20 @@ export function LoginButton() {
         script.parentNode.removeChild(script);
       }
     };
-  }, [user]);
+  }, [isMounted, loading, user]); // Include loading and user in dependencies
+
+  // Don't render anything until mounted to prevent hydration mismatch
+  if (!isMounted) {
+    console.log("LoginButton: not mounted yet");
+    return (
+      <button
+        disabled
+        className="px-4 py-2 bg-gray-300 text-gray-600 rounded-md"
+      >
+        Loading...
+      </button>
+    );
+  }
 
   if (loading) {
     console.log("LoginButton: showing loading state");

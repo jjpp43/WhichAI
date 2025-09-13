@@ -19,18 +19,35 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let mounted = true;
+
     // Get initial session
     const getInitialSession = async () => {
-      const {
-        data: { session },
-        error,
-      } = await supabase.auth.getSession();
-      if (error) {
-        console.error("Error getting session:", error);
-      } else {
-        setUser(session?.user ?? null);
+      try {
+        console.log("AuthProvider: Getting initial session...");
+        const {
+          data: { session },
+          error,
+        } = await supabase.auth.getSession();
+        
+        console.log("AuthProvider: Session result:", { session: !!session, error: !!error });
+        
+        if (mounted) {
+          if (error) {
+            console.error("Error getting session:", error);
+            setUser(null);
+          } else {
+            setUser(session?.user ?? null);
+          }
+          setLoading(false);
+        }
+      } catch (err) {
+        console.error("Unexpected error getting session:", err);
+        if (mounted) {
+          setUser(null);
+          setLoading(false);
+        }
       }
-      setLoading(false);
     };
 
     getInitialSession();
@@ -39,29 +56,46 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (event, session) => {
-      setUser(session?.user ?? null);
-      setLoading(false);
+      console.log("Auth state change:", event, session?.user?.id);
+      
+      if (mounted) {
+        setUser(session?.user ?? null);
+        setLoading(false);
+      }
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
   }, []);
 
   const signInWithGoogle = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
-      },
-    });
-    if (error) {
-      console.error("Error signing in with Google:", error);
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`,
+        },
+      });
+      if (error) {
+        console.error("Error signing in with Google:", error);
+      }
+    } catch (err) {
+      console.error("Unexpected error signing in:", err);
     }
   };
 
   const signOut = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-      console.error("Error signing out:", error);
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        console.error("Error signing out:", error);
+      }
+      setUser(null);
+    } catch (err) {
+      console.error("Unexpected error signing out:", err);
+      setUser(null);
     }
   };
 
@@ -78,6 +112,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       return null;
     }
   };
+
+  console.log("AuthProvider render:", { user: user?.id, loading });
 
   return (
     <AuthContext.Provider
